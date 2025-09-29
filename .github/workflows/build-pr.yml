@@ -1,0 +1,29 @@
+name: 🏗️ Build PR
+
+on:
+  pull_request: ~
+
+env:
+  stream: "pr-${{ github.event.pull_request.number }}"
+
+jobs:
+  build:
+    name: Build Docker image
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        search_api_solr_version: [ '3.x', '4.x' ]
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: 🐋 Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: 🏗️ Build  Docker image
+        uses: docker/bake-action@v6
+        env:
+          SEARCH_API_SOLR_VERSION: ${{ matrix.search_api_solr_version }}
+          STREAM: ${{ env.stream }}
