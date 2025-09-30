@@ -1,6 +1,4 @@
-ARG SOLR_IMAGE=7.7-slim
-
-FROM solr:${SOLR_IMAGE}
+FROM solr:7.7-slim
 LABEL maintainer="admin@skpr.io"
 
 ENV SOLR_CORE="drupal"
@@ -13,9 +11,8 @@ ENV JVM_OPTS="-Xms256m -Xmx256m"
 ENV LOG4J_FORMAT_MSG_NO_LOOKUPS=true
 
 ARG SEARCH_API_SOLR_VERSION
-ARG SOLR_VERSION
 
-COPY --chown=solr:solr search_api_solr/${SEARCH_API_SOLR_VERSION}/${SOLR_VERSION} /search_api
+COPY --chown=solr:solr search_api_solr/${SEARCH_API_SOLR_VERSION}/7.x /search_api
 
 VOLUME /opt/solr/server/solr/mycores
 VOLUME /opt/solr/server/logs
